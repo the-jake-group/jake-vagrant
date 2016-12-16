@@ -25,4 +25,25 @@ Vagrant.configure(2) do |config|
   config.vm.provider "virtualbox" do |v|
     v.name = "jake-grid"
   end
+
+  # Save databases from the VM to local folder when destroying VM
+  config.trigger.before :destroy do
+    info "Dumping databases to backup_dbs.sql..."
+    run_remote  "bash /vagrant/dump_db.sh"
+  end
+
+  # Ask if you'd like to load dbs from local file when provisioning
+  # a VM for the first time.
+  config.vm.provision "trigger", :option => "value" do |trigger|
+    trigger.fire do
+      confirm = nil
+      until ["Y", "y", "N", "n"].include?(confirm)
+        confirm = ask "Load VM databases from backup_dbs.sql? (Y/N) "
+      end
+      exit unless confirm.upcase == "Y"
+      info "Loading vagrant databases from backup_dbs.sql..."
+      run_remote  "bash /vagrant/load_db.sh"
+    end
+  end 
+
 end
