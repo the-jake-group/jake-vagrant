@@ -29,7 +29,7 @@ Vagrant.configure(2) do |config|
   # Save databases from the VM to local folder when destroying VM
   config.trigger.before :destroy do
     info "Dumping databases to backup_dbs.sql..."
-    run_remote  "bash /vagrant/dump_db.sh"
+    run_remote  "bash /vagrant/dump_dbs.sh"
   end
 
   # Ask if you'd like to load dbs from local file when provisioning
@@ -42,7 +42,7 @@ Vagrant.configure(2) do |config|
       end
       exit unless confirm.upcase == "Y"
       info "Loading vagrant databases from backup_dbs.sql..."
-      run_remote  "bash /vagrant/load_db.sh"
+      run_remote  "bash /vagrant/load_dbs.sh"
     end
   end 
 
