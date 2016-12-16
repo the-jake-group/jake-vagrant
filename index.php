@@ -161,7 +161,7 @@
                             foreach ($sites as $site) {
                                 echo sprintf(
                                     '<tr>
-                                        <td><a href="%s">%s</a></td>
+                                        <td><a href="%s" target="_blank">%s</a></td>
                                         <td>%s</td>
                                     </tr>',
                                     $site["dev_url"],
